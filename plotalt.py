@@ -60,7 +60,7 @@ def main():
     """reads in altitude from ephm file"""
     alt = cdfephm['GPS_Alt'][start_indephm:stop_indephm]    
     
-    """"downloads fspc cdf"""
+    """downloads fspc cdf"""
     fspcurl = 'http://barreldata.ucsc.edu/data_products/v05/l2/{}/{}/bar_{}_l2_fspc_{}_v05.cdf'.format(pay,date[2:8],pay,date)   
     fspcdata = urllib.urlretrieve(fspcurl)
     cdffspc = pycdf.CDF(fspcdata[0])    
