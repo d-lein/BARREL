@@ -105,7 +105,7 @@ def main():
     plt.gca().set_xlabel('UT')
     plt.gca().set_ylabel('Altitude')         
     
-    """plots light curves""""
+    """plots light curves"""
     plt.subplot(5,1,2)
     if(pay[0] == '1'):
         plt.plot(tfspc,light1,color = 'red',label = 'level 1')
