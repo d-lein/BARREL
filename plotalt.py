@@ -97,6 +97,7 @@ def main():
     myFmt = dt.DateFormatter('%H:%M')
     
     """plots altitude"""
+    plt.figure()
     plt.subplot(5,1,1)
     plt.plot(tephm, alt)
     plt.title('Payload {}, {}-{}-{}, {}'.format(pay,d,m,y,tr))
