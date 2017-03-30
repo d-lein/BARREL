@@ -19,6 +19,10 @@ import urllib
 from math import factorial
 
 
+"""average function"""
+def mean(numbers):
+    return float(sum(numbers)) / max(len(numbers), 1)
+
 def savitzky_golay(y, window_size, order, deriv=0, rate=1):
     """Smooth (and optionally differentiate) data with a Savitzky-Golay filter.
     The Savitzky-Golay filter removes high frequency noise from data.
@@ -194,7 +198,10 @@ def main():
             plt.gca().set_ylabel('Altitude')         
             
             """user input for fspc curve smoothing"""
-            smoothC = raw_input('Would you like to smooth the light curve data (y/n): ')
+            smoothC = raw_input('Would you like to smooth the light curve data (y/n)?'
+                                'Note, curve smoothing\nis best used on shorter time'
+                                'ranges (<4 hours) to maximize results. A flat\nline '
+                                'on a smoothed section indicates no activity: ')
             
             """error loop for improper input"""
             while ((smoothC != 'y') | (smoothC != 'n')):
@@ -258,25 +265,34 @@ def main():
                 """plots remaining light curves"""
                 plt.subplot(5,1,3)
                 """uses Savitzky Golay filtering (see function below) to smooth curve"""
-                light2sg = savitzky_golay(light2, window_size = 201, order = 4)
+                light2sg = savitzky_golay(light2, window_size = 31, order = 4)
                 plt.plot(tfspc,light2sg,color = 'green',label = 'level 2')
                 plt.legend(loc = 'upper right',frameon = False)
                 plt.gca().xaxis.set_major_formatter(myFmt)
                 
                 plt.subplot(5,1,4)
                 """uses Savitzky Golay filtering (see function below) to smooth curve"""
-                light3sg = savitzky_golay(light3, window_size = 41, order = 4)
+                light3sg = savitzky_golay(light3, window_size = 15, order = 4)
                 plt.plot(tfspc,light3sg,color = 'blue',label = 'level 3')
                 plt.legend(loc = 'upper right',frameon = False)
                 plt.gca().xaxis.set_major_formatter(myFmt)
                 
                 plt.subplot(5,1,5)
                 """uses Savitzky Golay filtering (see function above) to smooth curve"""
-                light4sg = savitzky_golay(light4, window_size = 21, order = 4)
+                light4sg = savitzky_golay(light4, window_size = 31, order = 4)
                 plt.plot(tfspc,light4sg,color = 'purple',label = 'level 4')
                 plt.legend(loc = 'upper right',frameon = False)
                 plt.gca().xaxis.set_major_formatter(myFmt)
                 plt.show()
+                
+            """prints out average lat. and long. over the time range to stdout"""
+            lat = cdfephm['GPS_Lat'][start_indephm:stop_indephm]
+            lon = cdfephm['GPS_Lon'][start_indephm:stop_indephm]
+            """takes means of lat. and long."""
+            avlat = mean(lat)
+            avlon = mean(lon)
+            print 'Average Latitude: {}'.format(avlat)
+            print 'Average Longitude: {}'.format(avlon)
             
             """user interface to determine whether user would like to examine another time"""
             print 'Would you like to examine a different time range on this day?'
